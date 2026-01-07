@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imagine Labs | Enterprise AI Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#050505',
+                            card: '#111111',
+                            border: '#222222'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in': 'fadeIn 1.2s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Space Grotesk', sans-serif; }
+        .score-ring {
+            background: conic-gradient(#000 0% 75%, #e5e7eb 75% 100%);
+        }
+        .card-shadow:hover {
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.15);
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Staggered Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        /* Design Polish: Noise & Grids */
+        .bg-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .dark .bg-noise { opacity: 0.07; }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#f7f7f7] dark:bg-[#050505] text-[#1a1a1a] dark:text-gray-200 transition-colors duration-500 selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div class="bg-noise"></div>
+
+    <!-- Modern Floating Navbar -->
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 w-[95%] max-w-[1400px] z-50 transition-all duration-300">
+        <div class="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-xl border border-white/50 dark:border-white/5 shadow-2xl shadow-black/5 rounded-full px-6 py-4 flex justify-between items-center transition-colors duration-300">
+            
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 pl-2">
+                <a href="index.html" class="text-xl font-bold font-heading tracking-tight flex items-center gap-2 dark:text-white">
+                    <span class="w-8 h-8 bg-black dark:bg-white dark:text-black text-white rounded-full flex items-center justify-center text-xs">W.</span>
+                    <span>labs</span>
+                </a>
+            </div>
+
+            <!-- Center Links (Desktop) -->
+            <div class="hidden lg:flex items-center space-x-1 bg-gray-100/50 dark:bg-white/5 p-1.5 rounded-full border border-gray-200/50 dark:border-white/5 backdrop-blur-sm transition-colors duration-300">
+                <a href="#" class="px-5 py-2 rounded-full text-sm font-medium bg-white dark:bg-[#222222] shadow-sm text-black dark:text-white transition-all">Work</a>
+                <a href="expertise.html" class="px-5 py-2 rounded-full text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-white/10 transition">Services</a>
+                <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-white/10 transition">Research</a>
+                <a href="jobs.html" class="px-5 py-2 rounded-full text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-white/10 transition">Careers</a>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-4 pr-2">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus:outline-none">
+                    <!-- Sun Icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <!-- Moon Icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden p-2 text-gray-600 dark:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Featured Deployment (Hero) -->
+    <section class="bg-white dark:bg-[#050505] pt-48 pb-32 border-b border-gray-200 dark:border-white/10 transition-colors duration-300 relative overflow-hidden">
+        <!-- Ambient Light -->
+        <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[128px] pointer-events-none opacity-50 dark:opacity-20"></div>
+        
+        <div class="max-w-[1400px] mx-auto px-6">
+            
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                <!-- Content -->
+                <div class="lg:col-span-5 relative z-10 opacity-0 animate-fade-in-up">
+                    <div class="flex items-center space-x-2 mb-8">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Featured Deployment</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-bold font-heading mb-10 leading-[0.9] dark:text-white tracking-tighter">
+                        Neural <br/> <span class="text-gray-400 dark:text-gray-600">Core</span>
+                    </h1>
+                    
+                    <div class="flex flex-col space-y-8 mb-12">
+                        <div class="flex items-center space-x-4">
+                            <div class="h-px w-12 bg-gray-300 dark:bg-white/20"></div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Architected for <strong class="text-black dark:text-white">Global Fintech</strong></span>
+                        </div>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-md font-light leading-relaxed">
+                            A production-grade reasoning engine processing 50M+ transactions daily with 99.99% uptime.
+                        </p>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button class="group px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-full transition transform hover:scale-105 hover:shadow-2xl flex items-center">
+                            View Case Study 
+                            <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Circular Score -->
+                <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 flex-col items-center justify-center bg-white/50 dark:bg-[#111111]/50 backdrop-blur-md w-32 h-32 rounded-full border border-white/20 dark:border-white/10 shadow-2xl z-20 transition-colors duration-300 opacity-0 animate-fade-in-up delay-200">
+                    <span class="text-3xl font-bold font-heading dark:text-white">10x</span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">ROI</span>
+                </div>
+
+                <!-- Image -->
+                <div class="lg:col-span-7 opacity-0 animate-fade-in-up delay-300">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer border border-gray-200 dark:border-white/10">
+                        <div class="aspect-[16/10] bg-gray-900 overflow-hidden">
+                            <!-- Gradient Placeholder for Hero Image -->
+                            <div class="w-full h-full bg-gradient-to-br from-gray-800 to-black group-hover:scale-105 transition duration-[1.5s] cubic-bezier(0.2, 0, 0.2, 1) ease-out opacity-90"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Works (Bento Grid) -->
+    <section class="py-24 bg-[#f7f7f7] dark:bg-[#0a0a0a] transition-colors duration-300">
+        <div class="max-w-[1400px] mx-auto px-6 opacity-0 animate-fade-in-up delay-300">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold font-heading mb-4 dark:text-white tracking-tight">Selected Works</h2>
+                    <p class="text-gray-500 dark:text-gray-400 max-w-md">Deploying intelligence at the edge of possibility.</p>
+                </div>
+                <div class="mt-6 md:mt-0 flex space-x-1 bg-white dark:bg-white/5 p-1 rounded-full border border-gray-200 dark:border-white/5">
+                    <button class="px-6 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">All</button>
+                    <button class="px-6 py-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white rounded-full text-xs font-bold uppercase tracking-wide transition">Fintech</button>
+                    <button class="px-6 py-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white rounded-full text-xs font-bold uppercase tracking-wide transition">Health</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 auto-rows-[500px]">
+                <!-- Card 1 (Hero - Spans 2 Cols) -->
+                <div class="group md:col-span-2 relative bg-white dark:bg-[#111111] rounded-2xl overflow-hidden card-shadow border border-transparent dark:border-white/5">
+                    <div class="absolute inset-0 bg-gray-900">
+                        <div class="w-full h-full bg-gradient-to-br from-indigo-900 to-black group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80"></div>
+                    </div>
+                    <div class="absolute top-6 right-6 bg-white/10 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/10">CASE STUDY</div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                        <span class="text-xs font-bold uppercase tracking-widest text-indigo-400 mb-2 block">Fintech Infrastructure</span>
+                        <h3 class="text-4xl font-bold font-heading text-white mb-4">Autonomous Fraud Guard</h3>
+                        <p class="text-gray-300 max-w-lg mb-6 line-clamp-2">A real-time reasoning engine processing 50,000 TPS for a global banking consortium, reducing false positives by 94%.</p>
+                        <span class="inline-flex items-center text-white font-bold border-b border-white pb-1 group-hover:border-indigo-400 transition">View Project</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 (Vertical) -->
+                <div class="group relative bg-white dark:bg-[#111111] rounded-2xl overflow-hidden card-shadow border border-transparent dark:border-white/5">
+                    <div class="absolute inset-0 bg-gray-800">
+                        <div class="w-full h-full bg-gradient-to-bl from-emerald-900 to-black group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-2 block">Healthcare</span>
+                        <h3 class="text-2xl font-bold font-heading text-white mb-2">Clinical RAG</h3>
+                        <p class="text-gray-400 text-sm mb-4">HIPAA-compliant retrieval.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative bg-white dark:bg-[#111111] rounded-2xl overflow-hidden card-shadow border border-transparent dark:border-white/5">
+                    <div class="absolute inset-0 bg-gray-800">
+                        <div class="w-full h-full bg-gradient-to-tr from-amber-900 to-black group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                        <span class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-2 block">Logistics</span>
+                        <h3 class="text-2xl font-bold font-heading text-white mb-2">Supply Agent</h3>
+                        <p class="text-gray-400 text-sm mb-4">Predictive routing core.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 (Wide) -->
+                <div class="group md:col-span-2 relative bg-white dark:bg-[#111111] rounded-2xl overflow-hidden card-shadow border border-transparent dark:border-white/5">
+                    <div class="absolute inset-0 bg-gray-900">
+                        <div class="w-full h-full bg-gradient-to-r from-purple-900 to-black group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end justify-between">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-purple-400 mb-2 block">Generative UI</span>
+                            <h3 class="text-3xl font-bold font-heading text-white">Dynamic Dashboards</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions (Spatial Hover List) -->
+    <section class="py-32 bg-white dark:bg-[#050505] border-t border-gray-200 dark:border-white/5 transition-colors duration-300">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-24">
+                <div class="sticky top-32 h-fit">
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 block">Capabilities</span>
+                    <h2 class="text-5xl md:text-7xl font-bold font-heading leading-[0.9] dark:text-white tracking-tighter mb-8">
+                        Engineering <br/> Reality.
+                    </h2>
+                    <p class="text-lg text-gray-500 dark:text-gray-400 max-w-sm">
+                        We don't just build models; we build the infrastructure that powers them at scale.
+                    </p>
+                </div>
+                
+                <div class="space-y-8">
+                    <!-- List Item 1 -->
+                    <div class="group border-b border-gray-200 dark:border-white/10 pb-8 cursor-pointer">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-heading font-bold text-gray-400 group-hover:text-black dark:group-hover:text-white transition duration-300">01. Finance AI</h3>
+                            <svg class="w-6 h-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transform group-hover:translate-x-2 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                        <p class="text-gray-500 dark:text-gray-500 max-w-md group-hover:text-gray-800 dark:group-hover:text-gray-300 transition duration-300">
+                            Automated reconciliation, fraud detection, and predictive liquidity models.
+                        </p>
+                    </div>
+
+                    <!-- List Item 2 -->
+                    <div class="group border-b border-gray-200 dark:border-white/10 pb-8 cursor-pointer">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-heading font-bold text-gray-400 group-hover:text-black dark:group-hover:text-white transition duration-300">02. Health Tech</h3>
+                            <svg class="w-6 h-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transform group-hover:translate-x-2 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                        <p class="text-gray-500 dark:text-gray-500 max-w-md group-hover:text-gray-800 dark:group-hover:text-gray-300 transition duration-300">
+                            HIPAA-compliant RAG systems for patient data retrieval and diagnosis support.
+                        </p>
+                    </div>
+
+                    <!-- List Item 3 -->
+                    <div class="group border-b border-gray-200 dark:border-white/10 pb-8 cursor-pointer">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-heading font-bold text-gray-400 group-hover:text-black dark:group-hover:text-white transition duration-300">03. Supply Chain</h3>
+                            <svg class="w-6 h-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transform group-hover:translate-x-2 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                        <p class="text-gray-500 dark:text-gray-500 max-w-md group-hover:text-gray-800 dark:group-hover:text-gray-300 transition duration-300">
+                            Multi-agent systems for route optimization and inventory prediction.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Impact (Metrics) -->
+    <section class="py-24 bg-[#f7f7f7] dark:bg-[#0a0a0a] transition-colors duration-300">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <h2 class="text-3xl font-bold font-heading mb-16 text-center dark:text-white">Global Scale</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-200 dark:divide-white/10">
+                <div class="p-4">
+                    <span class="block text-5xl font-bold font-heading mb-2 dark:text-white">$50B+</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Processed Volume</span>
+                </div>
+                <div class="p-4">
+                    <span class="block text-5xl font-bold font-heading mb-2 dark:text-white">100M+</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Users Served</span>
+                </div>
+                <div class="p-4">
+                    <span class="block text-5xl font-bold font-heading mb-2 dark:text-white">99.9%</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Uptime</span>
+                </div>
+                <div class="p-4 border-r-0">
+                    <span class="block text-5xl font-bold font-heading mb-2 dark:text-white">14</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Global Offices</span>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <p class="text-gray-500 mb-6">Trusted by the world's most ambitious teams</p>
+                <div class="flex justify-center items-center space-x-12 opacity-50 grayscale">
+                    <!-- Simple Logo Placeholders -->
+                    <div class="font-bold text-xl font-heading dark:text-white">Acme Corp</div>
+                    <div class="font-bold text-xl font-heading dark:text-white">Globex</div>
+                    <div class="font-bold text-xl font-heading dark:text-white">Soylent</div>
+                    <div class="font-bold text-xl font-heading dark:text-white">Initech</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-[#050505] border-t border-gray-200 dark:border-white/5 py-20 mt-12 text-sm transition-colors duration-300">
+        <div class="max-w-[1400px] mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div>
+                 <a href="#" class="text-xl font-bold font-heading tracking-tight block mb-6 dark:text-white">
+                    w.<span class="text-gray-400">labs</span>
+                </a>
+                <p class="text-gray-500 leading-relaxed">
+                    Engineering intelligence for the enterprise.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400">Services</h4>
+                <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Consulting</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Development</a></li>
+                </ul>
+            </div>
+             <div>
+                <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400">Company</h4>
+                <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                    <li><a href="about.html" class="hover:text-black dark:hover:text-white">About Us</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Careers</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Legal</a></li>
+                </ul>
+            </div>
+             <div>
+                <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400">Connect</h4>
+                 <ul class="space-y-3 text-gray-500 dark:text-gray-400">
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Twitter / X</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Instagram</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">LinkedIn</a></li>
+                    <li><a href="#" class="hover:text-black dark:hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check local storage or system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+    </script>
+</body>
+</html>

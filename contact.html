@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Imagine Labs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #1a1a1a; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            padding-bottom: 2px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #000;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        input, textarea {
+            background: transparent;
+            border-bottom: 1px solid #e5e7eb;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+    </style>
+</head>
+<body class="bg-[#fcfcfc] text-black antialiased">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-[#fcfcfc]/95 backdrop-blur-sm border-b border-gray-200 transition-all duration-300">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-12 py-5 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tight font-serif">
+                <a href="index.html">Imagine Labs</a>
+            </div>
+            
+            <div class="hidden md:flex space-x-10 text-sm font-medium tracking-wide uppercase">
+                <a href="index.html" class="nav-link">Work</a>
+                <a href="expertise.html" class="nav-link">Expertise</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link border-b border-black">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Icon -->
+            <div class="md:hidden">
+                <button class="space-y-1.5 group">
+                    <span class="block w-6 h-0.5 bg-black group-hover:bg-gray-600 transition"></span>
+                    <span class="block w-6 h-0.5 bg-black group-hover:bg-gray-600 transition"></span>
+                    <span class="block w-6 h-0.5 bg-black group-hover:bg-gray-600 transition"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-24 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen">
+        <div class="grid md:grid-cols-2 gap-20">
+            <!-- Info Column -->
+            <div>
+                <h1 class="text-5xl md:text-6xl font-serif mb-12">Start a conversation.</h1>
+                <p class="text-xl text-gray-600 font-light mb-12 max-w-md">
+                    Interested in working together? We'd love to hear from you.
+                </p>
+
+                <div class="space-y-12">
+                    <div>
+                        <h4 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-2">General Inquiries</h4>
+                        <a href="mailto:hello@ImagineLabs.ai" class="text-lg hover:text-gray-600 transition">hello@ImagineLabs.ai</a>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-2">New Business</h4>
+                        <a href="mailto:partnerships@ImagineLabs.ai" class="text-lg hover:text-gray-600 transition">partnerships@ImagineLabs.ai</a>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-2">Studio</h4>
+                        <p class="text-lg text-gray-800">
+                            415 Mission Street<br>
+                            San Francisco, CA 94105
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Column -->
+            <div class="bg-white p-12 shadow-sm border border-gray-100">
+                <form class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold tracking-widest uppercase text-gray-400">Name</label>
+                            <input type="text" class="w-full pb-2 text-lg font-light placeholder-gray-300" placeholder="John Doe">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold tracking-widest uppercase text-gray-400">Email</label>
+                            <input type="email" class="w-full pb-2 text-lg font-light placeholder-gray-300" placeholder="john@company.com">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold tracking-widest uppercase text-gray-400">Company</label>
+                        <input type="text" class="w-full pb-2 text-lg font-light placeholder-gray-300" placeholder="Acme Inc.">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold tracking-widest uppercase text-gray-400">Message</label>
+                        <textarea rows="4" class="w-full pb-2 text-lg font-light placeholder-gray-300" placeholder="Tell us about your project..."></textarea>
+                    </div>
+
+                    <div class="pt-8">
+                        <button type="button" class="px-8 py-4 bg-black text-white font-medium hover:bg-gray-800 transition w-full md:w-auto">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a1a1a] text-white py-20 px-6 md:px-12 mt-20">
+        <div class="max-w-screen-2xl mx-auto grid md:grid-cols-4 gap-12">
+            <div class="col-span-2">
+                <h2 class="text-4xl font-serif mb-8">Let's build something extraordinary.</h2>
+                <a href="mailto:hello@ImagineLabs.ai" class="text-xl underline decoration-1 underline-offset-8 hover:text-gray-300 transition">hello@ImagineLabs.ai</a>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase tracking-wider text-xs text-gray-400">Social</h4>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="#" class="hover:text-gray-300 transition">LinkedIn</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Twitter</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Github</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase tracking-wider text-xs text-gray-400">Company</h4>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="about.html" class="hover:text-gray-300 transition">About</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Careers</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Legal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-screen-2xl mx-auto mt-20 pt-8 border-t border-gray-800 text-xs text-gray-500 flex justify-between">
+            <p>&copy; 2026 Imagine Labs</p>
+            <p>Designed in Labs</p>
+        </div>
+    </footer>
+</body>
+</html>
